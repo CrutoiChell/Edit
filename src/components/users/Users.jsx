@@ -1,6 +1,9 @@
 import { User } from "../user/User"
 import { useState } from "react";
 import { randomId } from "../../../js";
+
+// localStorage.clear()
+
 const initUsers = [
     { id: randomId(), name: 'user1', surname: 'surn1', age: 30, isEdit: false },
     { id: randomId(), name: 'user2', surname: 'surn2', age: 31, isEdit: false },
@@ -21,11 +24,32 @@ export function Users() {
         }));
     }
 
+    function handleEdit(id,field,event) {
+        setData(data.map(user => {
+            if (user.id === id){
+                user[field] = event.target.value
+                console.log(field);
+                
+            }
 
+            return user
+        }))
+    }
 
     return (<>
         {data.map(item => {
-            return <User toggleMode={toggleMode} isEdit={item.isEdit} key={item.id} id={item.id} name={item.name} surname={item.surname} age={item.age} />
+            return (
+                <User
+                    handleEdit={handleEdit}
+                    toggleMode={toggleMode}
+                    isEdit={item.isEdit}
+                    key={item.id}
+                    id={item.id}
+                    name={item.name}
+                    surname={item.surname}
+                    age={item.age}
+                />
+            )
         })}
     </>
 
